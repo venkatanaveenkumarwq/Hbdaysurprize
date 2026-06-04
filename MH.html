@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari 💚</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Poppins:wght@700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#ffffff}
+  body{font-family:'Poppins',sans-serif;color:#000;overflow:hidden;position:relative}
+  
+.screen{
+  width:100vw;
+  height:100vh;
+  position:fixed;
+  top:0;
+  left:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:10;
+  background:#ffffff;
+}
+.screen.active{display:flex}
+
+  #musicBtn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:9999;
+    background:#dc2626;
+    border:none;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    color:white;
+    font-size:20px;
+    cursor:pointer
+  }
+
+/* Lock Screen */
+.lock-screen{background:#ffffff}
+  #countdown{font-size:20px;margin-bottom:25px;font-weight:700;color:#dc2626}
+.polaroid{background:white;padding:15px 15px 60px 15px;transform:rotate(-3deg);border:3px solid #000;margin-bottom:40px;position:relative;cursor:pointer}
+.polaroid img{width:220px;height:220px;object-fit:cover;display:block}
+.polaroid-text{position:absolute;bottom:15px;left:0;right:0;text-align:center;font-family:'Gloria Hallelujah',cursive;color:#000;font-size:15px;font-weight:600}
+.dots{display:flex;gap:15px;justify-content:center;margin-bottom:30px}
+.dot{width:22px;height:22px;border:4px solid #dc2626;border-radius:50%;background:transparent}
+.dot.filled{background:#dc2626}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:250px}
+.key{
+  width:70px;height:70px;border-radius:50%;
+  border:4px solid #dc2626;
+  background:#ffffff;
+  color:#000;
+  font-size:28px;
+  font-weight:700;
+  cursor:pointer;
+  -webkit-font-smoothing:antialiased;
+}
+.key:active{background:#fee2e2}
+
+/* Loading Screen */
+.loading{background:#ffffff;font-size:42px;font-weight:700;color:#dc2626}
+
+/* Hey you screen */
+.hey-screen{background:#ffffff;color:#000}
+.hey-text{font-size:32px;font-weight:700;margin-bottom:40px;color:#dc2626}
+.envelope{position:relative;width:300px;height:200px;cursor:pointer;transform-style:preserve-3d;transition:transform 0.6s}
+.envelope.open{transform:rotateX(180deg)}
+.envelope-front,.envelope-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:10px;border:3px solid #dc2626}
+.envelope-front{background:#dc2626;display:flex;align-items:center;justify-content:center}
+.envelope-flap{position:absolute;top:0;left:0;width:0;height:0;border-left:150px solid transparent;border-right:150px solid transparent;border-top:100px solid #b91c1c;transform-origin:top;transition:0.6s}
+.envelope.open .envelope-flap{transform:rotateX(180deg)}
+.envelope-back{background:white;transform:rotateX(180deg);padding:20px;display:flex;align-items:center;justify-content:center}
+.seal{width:50px;height:50px;background:#fbbf24;border-radius:50%}
+
+/* K-drama Scene */
+.kdrama{background-image:url('./K\ D.jpeg');background-size:cover;background-position:center}
+.kdrama-content{position:relative;z-index:2;text-align:center;color:#cf0abb}
+.kdrama h1{font-size:42px;margin-bottom:10px}
+.kdrama p{font-size:18px;margin-bottom:30px}
+.btn-next{padding:14px 40px;background:#dc2626;color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;margin:8px}
+
+/* Letter Page */
+.letter-screen{background:#ffffff;padding:40px 20px;overflow-y:auto}
+.letter-container{max-width:500px;width:100%}
+.letter{background:#fef9e7;color:#000;padding:30px;border-radius:5px;font-family:'Gloria Hallelujah',cursive;line-height:1.8;font-size:16px;border:3px solid #dc2626;margin-bottom:30px}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.photos img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;border:3px solid #000}
+
+/* Gallery Screen */
+.gallery-screen{background:#ffffff;padding:20px}
+.gallery-title{font-size:28px;margin-bottom:30px;color:#dc2626;font-weight:700;text-align:center}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;max-width:400px;width:100%}
+.gallery-item{aspect-ratio:1/1;border:3px solid #dc2626;border-radius:12px;overflow:hidden;cursor:pointer;transform:scale(0.9);opacity:0;transition:0.5s}
+.gallery-item.revealed{transform:scale(1);opacity:1}
+.gallery-item img{width:100%;height:100%;object-fit:cover}
+.tap-hint{margin-top:25px;color:#000;font-size:16px;font-weight:700}
+
+/* Timeline Screen */
+.timeline-screen{background:#ffffff;padding:40px 20px;overflow-y:auto}
+.timeline-container{max-width:500px;width:100%;text-align:center}
+.timeline-title{font-size:28px;margin-bottom:30px;color:#dc2626;font-weight:700}
+.timeline-messages{margin-bottom:30px}
+.timeline-msg{
+  background:#fee2e2;
+  border:3px solid #dc2626;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:15px;
+  font-size:18px;
+  color:#000;
+  font-weight:700;
+  opacity:0;
+  transform:translateY(20px);
+  animation:slideUp 0.6s forwards;
+}
+.timeline-msg:nth-child(2){animation-delay:0.5s}
+.timeline-msg:nth-child(3){animation-delay:1s}
+.timeline-msg:nth-child(4){animation-delay:1.5s}
+.replay-btn{padding:12px 30px;background:#dc2626;color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;margin-top:20px}
+
+/* FINAL TOUCH: Grand Finale Screen */
+.finale-screen{background:#000;overflow:hidden}
+.finale-content{position:relative;z-index:2;text-align:center;color:#fff;padding:20px}
+.finale-title{font-size:48px;font-weight:700;margin-bottom:20px;opacity:0;animation:fadeInScale 1s 0.5s forwards}
+.finale-text{font-size:20px;margin-bottom:15px;min-height:60px;font-family:'Gloria Hallelujah',cursive}
+.finale-heart{font-size:80px;margin:30px 0;animation:pulse 1.5s infinite}
+.finale-date{font-size:18px;margin-bottom:30px;opacity:0;animation:fadeIn 1s 3s forwards}
+.sparkle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:#fff;
+  border-radius:50%;
+  animation:sparkleFall 3s linear infinite;
+}
+
+.hearts-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.heart{
+  position:absolute;
+  font-size:20px;
+  color:#dc2626;
+  animation:floatUp 4s ease-in forwards;
+}
+
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:5}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+@keyframes slideUp{to{opacity:1;transform:translateY(0)}}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-100vh)}}
+@keyframes fadeInScale{0%{opacity:0;transform:scale(0.5)}100%{opacity:1;transform:scale(1)}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes sparkleFall{0%{opacity:1;transform:translateY(-10px)}100%{opacity:0;transform:translateY(100vh)}}
+</style>
+</head>
+<body>
+
+<audio id="bgm" loop><source src="./starostin-happy-birthday-357371.mp3" type="audio/mpeg"></audio>
+<button id="musicBtn" onclick="toggleMusic()">🔇</button>
+
+<div class="screen lock-screen active" id="lock">
+  <div id="countdown">1h until your day 🎉</div>
+  <div class="polaroid" onclick="secretTap()">
+    <img src="./H Child.jpeg" alt="Birthday">
+    <div class="polaroid-text"><br>05.06.2026</div>
+  </div>
+  <div class="keypad">
+    <div class="dots" id="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="keys">
+      <button class="key" onclick="enterDigit('1')">1</button><button class="key" onclick="enterDigit('2')">2</button><button class="key" onclick="enterDigit('3')">3</button>
+      <button class="key" onclick="enterDigit('4')">4</button><button class="key" onclick="enterDigit('5')">5</button><button class="key" onclick="enterDigit('6')">6</button>
+      <button class="key" onclick="enterDigit('7')">7</button><button class="key" onclick="enterDigit('8')">8</button><button class="key" onclick="enterDigit('9')">9</button>
+      <button class="key" onclick="clearPass()">*</button><button class="key" onclick="enterDigit('0')">0</button><button class="key" onclick="checkPass()">#</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen loading" id="loading">
+  <div>05/06/2026</div>
+</div>
+
+<div class="screen hey-screen" id="hey">
+  <div class="hey-text">Hey you Open it! 👋</div>
+  <div class="envelope" onclick="openEnvelope()">
+    <div class="envelope-front"><div class="envelope-flap"></div><div class="seal"></div></div>
+    <div class="envelope-back"><p style="color:#dc2626;font-weight:700;">Click to open</p></div>
+  </div>
+</div>
+
+<div class="screen kdrama" id="kdrama">
+  <div class="kdrama-content">
+    <h1>Happy Birthday Buddi 💖!</h1>
+    <p>I am very lucky to have a person like you Tq for being my strength and support✨</p>
+    <button class="btn-next" onclick="showScreen('letter')">Open Letter</button>
+  </div>
+</div>
+
+<div class="screen letter-screen" id="letter">
+  <div class="letter-container">
+    <div class="letter">
+      <h3 style="text-align:center;margin-bottom:20px;color:#dc2626;">My Dearest Hari,</h3>
+      <p>On this special day, I just want to remind you how incredibly amazing you are. Your smile lights up my world, your laugh is my favorite sound, and your heart is the kindest I know.<br><br>Thank you for being you. For all the memories we've made and all the ones yet to come. I hope this year brings you endless joy, love, and all the cake you can eat 🍰<br><br>I'm so grateful you're in my life. Happy Birthday, bestie!<br><br>Forever yours,<br>Buddi 💚</p>
+    </div>
+    <div class="photos"><img src="./HM3.jpeg" alt="1"><img src="./H AI.jpeg" alt="2"><img src="./HM1.jpeg" alt="3"></div>
+    <button class="btn-next" style="margin-top:30px;background:#dc2626;color:white;" onclick="showScreen('gallery')">Final Surprise →</button>
+  </div>
+</div>
+
+<div class="screen gallery-screen" id="gallery">
+  <div class="gallery-title">Our Best Moments ✨</div>
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item"><img src="./HM1.jpeg" alt="Memory 1"></div>
+    <div class="gallery-item"><img src="./HM3.jpeg" alt="Memory 2"></div>
+    <div class="gallery-item"><img src="./H F O.jpeg" alt="Memory 3"></div>
+    <div class="gallery-item"><img src="./H S.jpeg" alt="Memory 4"></div>
+  </div>
+  <div class="tap-hint" id="tapHint">Tap anywhere to reveal 🎉</div>
+  <button class="btn-next" onclick="showScreen('timeline')" style="display:none" id="nextSurprise">One Last Thing →</button>
+</div>
+
+<div class="screen timeline-screen" id="timeline">
+  <div class="timeline-container">
+    <h2 class="timeline-title">Why You're Special 💚</h2>
+    <div class="timeline-messages" id="timelineMessages"></div>
+    <button class="btn-next" onclick="showScreen('finale')" id="finaleBtn" style="display:none">Grand Finale →</button>
+  </div>
+  <div class="hearts-container" id="heartsContainer"></div>
+</div>
+
+<!-- FINAL TOUCH: Grand Finale -->
+<div class="screen finale-screen" id="finale">
+  <div class="finale-content">
+    <h1 class="finale-title">HAPPY BIRTHDAY HARI</h1>
+    <div class="finale-text" id="typewriter"></div>
+    <div class="finale-heart">💚</div>
+    <div class="finale-date">05.06.2026 - The day the world got brighter</div>
+    <button class="replay-btn" onclick="showScreen('lock')">Start Over 💫</button>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+let password='',correctPass='000000',dots=document.querySelectorAll('.dot'),musicPlaying=!1,bgm=document.getElementById('bgm'),musicBtn=document.getElementById('musicBtn'),tapCount=0,canvas=document.getElementById('confetti'),ctx=canvas.getContext('2d'),particles=[],galleryRevealed=!1,finaleStarted=!1;
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+
+const timelineTexts = [
+  "You make everyone smile without even trying 💚",
+  "Your kindness is your superpower ✨",
+  "Life is 10x better with you in it 🌟",
+  "Never forget how loved you are ❤️"
+];
+
+const finaleText = "Forget the past; look forward to the future, for the best things are yet to come. Keep shining and Be happy everytime!";
+
+function updateCountdown(){
+  const e=new Date('2026-06-05T00:00:00'),t=new Date,d=e-t;
+  d>0?document.getElementById('countdown').textContent=`${Math.floor(d/36e5)}h until your day 🎉`:document.getElementById('countdown').textContent="It's your day! 🎂"
+}setInterval(updateCountdown,1e3);updateCountdown();
+
+function secretTap(){++tapCount===3&&(alert("Okay fine... I stayed up 3 nights coding this because you're worth it 💚 Happy Birthday Hari!"),tapCount=0),setTimeout(()=>tapCount=0,1e3)}
+function toggleMusic(){musicPlaying?(bgm.pause(),musicBtn.textContent='🔇'):(bgm.play(),musicBtn.textContent='🔊'),musicPlaying=!musicPlaying}
+function enterDigit(e){password.length<6&&(password+=e,dots[password.length-1].classList.add('filled'))}
+function clearPass(){password='',dots.forEach(e=>e.classList.remove('filled'))}
+function checkPass(){
+  if(password===correctPass){
+    bgm.play();musicPlaying=!0;musicBtn.textContent='🔊';
+    showScreen('loading');
+    setTimeout(()=>showScreen('hey'),2000);
+  }else{
+    clearPass();
+    document.getElementById('lock').style.animation='shake 0.5s';
+    setTimeout(()=>document.getElementById('lock').style.animation='',500);
+  }
+}
+function showScreen(e){
+  document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active'));
+  document.getElementById(e).classList.add('active');
+  if(e==='gallery'&&!galleryRevealed){
+    setTimeout(()=>{document.getElementById('gallery').onclick=revealGallery},500);
+  }
+  if(e==='timeline'){
+    startTimeline();
+  }
+  if(e==='finale'&&!finaleStarted){
+    startFinale();
+  }
+}
+function openEnvelope(){document.querySelector('.envelope').classList.add('open'),setTimeout(()=>showScreen('kdrama'),1000)}
+
+function revealGallery(){
+  if(galleryRevealed)return;
+  galleryRevealed=!0;
+  document.getElementById('tapHint').style.display='none';
+  const items=document.querySelectorAll('.gallery-item');
+  items.forEach((item,i)=>{
+    setTimeout(()=>{
+      item.classList.add('revealed');
+      launchConfetti();
+    },i*200);
+  });
+  setTimeout(()=>{
+    document.getElementById('nextSurprise').style.display='block';
+    launchConfetti();
+  },1000);
+  document.getElementById('gallery').onclick=null;
+}
+
+function startTimeline(){
+  const container=document.getElementById('timelineMessages');
+  container.innerHTML='';
+  timelineTexts.forEach((text,i)=>{
+    setTimeout(()=>{
+      const div=document.createElement('div');
+      div.className='timeline-msg';
+      div.textContent=text;
+      container.appendChild(div);
+      createHearts();
+    },i*800);
+  });
+  setTimeout(()=>{
+    document.getElementById('finaleBtn').style.display='inline-block';
+  },4000);
+}
+
+// FINAL TOUCH FUNCTIONS
+function startFinale(){
+  finaleStarted=!0;
+  typeWriter();
+  createSparkles();
+  setInterval(launchConfetti,2000);
+}
+
+function typeWriter(){
+  let i=0;
+  const element=document.getElementById('typewriter');
+  function typing(){
+    if(i<finaleText.length){
+      element.textContent+=finaleText.charAt(i);
+      i++;
+      setTimeout(typing,50);
+    }
+  }
+  setTimeout(typing,1500);
+}
+
+function createSparkles(){
+  const finale=document.getElementById('finale');
+  setInterval(()=>{
+    const sparkle=document.createElement('div');
+    sparkle.className='sparkle';
+    sparkle.style.left=Math.random()*100+'%';
+    sparkle.style.animationDelay=Math.random()*2+'s';
+    finale.appendChild(sparkle);
+    setTimeout(()=>sparkle.remove(),3000);
+  },100);
+}
+
+function createHearts(){
+  const container=document.getElementById('heartsContainer');
+  for(let i=0;i<5;i++){
+    setTimeout(()=>{
+      const heart=document.createElement('div');
+      heart.className='heart';
+      heart.textContent='💚';
+      heart.style.left=Math.random()*100+'%';
+      heart.style.animationDelay=Math.random()*1+'s';
+      container.appendChild(heart);
+      setTimeout(()=>heart.remove(),4000);
+    },i*200);
+  }
+}
+
+function launchConfetti(){
+  for(let i=0;i<150;i++){
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:-10,
+      vx:(Math.random()-0.5)*8,
+      vy:Math.random()*3+2,
+      size:Math.random()*8+4,
+      color:['#dc2626','#fbbf24','#ffffff','#22c55e'][Math.floor(Math.random()*4)],
+      rotation:Math.random()*360,
+      rotationSpeed:(Math.random()-0.5)*10
+    });
+  }
+}
+
+function animate(){
+  ctx.fillStyle='rgba(0, 0, 0, 0.1)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  particles=particles.filter(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.vy+=0.1;p.rotation+=p.rotationSpeed;
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.rotation*Math.PI/180);
+    ctx.fillStyle=p.color;
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+    ctx.restore();
+    return p.y<canvas.height+20;
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth,canvas.height=window.innerHeight});
+</script>
+</body>
+</html>
